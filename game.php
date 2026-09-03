@@ -66,17 +66,18 @@ require_once 'header.php';
         
         <div class="player-column">
             <?php 
-                $thumbUrl = (strpos($game['image_url'], 'http') === 0 ? '' : '/') . htmlspecialchars($game['image_url']);
+                $rawThumb = $game['image_url'] ?? '';
+                $thumbUrl = (strpos($rawThumb, 'http') === 0) ? $rawThumb : '/' . ltrim($rawThumb, '/');
             ?>
             <div id="video-viewport" class="viewport-box">
-                <div id="play-overlay" class="play-overlay" style="background-image: url('<?php echo $thumbUrl; ?>');">
+                <div id="play-overlay" class="play-overlay" style="background-image: url('<?php echo htmlspecialchars($thumbUrl); ?>');">
                     <div class="overlay-backdrop"></div>
                     <div class="overlay-content">
                         <div class="overlay-thumb-wrapper">
-                            <img src="<?php echo $thumbUrl; ?>" alt="<?php echo $displayTitle; ?>" class="overlay-thumb">
+                            <img src="<?php echo htmlspecialchars($thumbUrl); ?>" alt="<?php echo $displayTitle; ?>" class="overlay-thumb">
                         </div>
                         <h2 class="overlay-title"><?php echo $displayTitle; ?></h2>
-                        <button id="play-game-btn" class="play-btn">
+                        <button id="play-game-btn" class="play-btn" type="button">
                             <span class="play-icon">▶</span> PLAY NOW
                         </button>
                     </div>
@@ -129,7 +130,8 @@ require_once 'footer.php';
     const iframeContainer = document.getElementById('iframe-container');
     const gameUrl = <?php echo json_encode($game['iframe_url']); ?>;
 
-    function loadAndStartGame() {
+    function loadAndStartGame(e) {
+        if (e) e.stopPropagation();
         if (playOverlay && iframeContainer) {
             playOverlay.style.display = 'none';
             iframeContainer.style.display = 'block';
@@ -141,6 +143,9 @@ require_once 'footer.php';
 
     if (playBtn) {
         playBtn.addEventListener('click', loadAndStartGame);
+    }
+    if (playOverlay) {
+        playOverlay.addEventListener('click', loadAndStartGame);
     }
 
     const fsBtn = document.getElementById('fullscreen-btn');
