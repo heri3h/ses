@@ -32,6 +32,7 @@ try {
     <title>Play Online Games for Free</title>
     <link rel="stylesheet" href="assets/css/style.css?v=<?php echo time(); ?>">
     <?php require_once 'ads/ads-header.php'; ?>
+    <?php require_once 'meta-header.php'; ?>
 </head>
 <body>
 

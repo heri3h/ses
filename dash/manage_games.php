@@ -200,7 +200,7 @@ $games = $stmt->fetchAll();
             <tbody>
                 <?php foreach ($games as $row): ?>
                 <tr>
-                    <td><img src="../<?= $row['image_url'] ?>?v=<?= time() ?>" width="40" height="40" style="object-fit:cover; border-radius:6px;"></td>
+                    <td><img src="/<?= $row['image_url'] ?>?v=<?= time() ?>" width="40" height="40" style="object-fit:cover; border-radius:6px;"></td>
                     <td><strong><?= htmlspecialchars(html_entity_decode((string)($row['title'] ?? ''))) ?></strong></td>
                     <td><span style="background:#eee; padding:3px 8px; border-radius:5px; font-size:11px;"><?= strtoupper((string)($row['category'] ?? '')) ?></span></td>
                     <td><?= number_format((int)($row['views'] ?? 0)) ?></td>

@@ -50,7 +50,8 @@ $displayDesc  = nl2br(htmlspecialchars(html_entity_decode((string)($game['descri
     
     <link rel="stylesheet" href="/assets/css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="/assets/css/game-style.css?v=<?php echo time(); ?>">
-    <?php //include 'ads/ads-header.php'; ?>
+    <?php require_once 'ads/ads-header.php'; ?>
+    <?php require_once 'meta-header.php'; ?>
 </head>
 <body class="game-page-layout">
 
@@ -58,14 +59,29 @@ $displayDesc  = nl2br(htmlspecialchars(html_entity_decode((string)($game['descri
 require_once 'header.php';
 ?>
 
-
+<?php echo get_ad_unit('gm-header'); ?>
 <main class="game-container">
-    <?php //echo get_ad_unit('gm-header'); ?>
+    
     <div class="main-grid">
         
         <div class="player-column">
+            <?php 
+                $thumbUrl = (strpos($game['image_url'], 'http') === 0 ? '' : '/') . htmlspecialchars($game['image_url']);
+            ?>
             <div id="video-viewport" class="viewport-box">
-                <iframe id="game-iframe" src="<?php echo $game['iframe_url']; ?>" frameborder="0" allowfullscreen></iframe>
+                <div id="play-overlay" class="play-overlay" style="background-image: url('<?php echo $thumbUrl; ?>');">
+                    <div class="overlay-backdrop"></div>
+                    <div class="overlay-content">
+                        <div class="overlay-thumb-wrapper">
+                            <img src="<?php echo $thumbUrl; ?>" alt="<?php echo $displayTitle; ?>" class="overlay-thumb">
+                        </div>
+                        <h2 class="overlay-title"><?php echo $displayTitle; ?></h2>
+                        <button id="play-game-btn" class="play-btn">
+                            <span class="play-icon">▶</span> PLAY NOW
+                        </button>
+                    </div>
+                </div>
+                <div id="iframe-container" class="iframe-container" style="display: none;"></div>
             </div>
             
             <div class="player-bar">
@@ -108,10 +124,32 @@ require_once 'footer.php';
 ?>
 
 <script>
+    const playBtn = document.getElementById('play-game-btn');
+    const playOverlay = document.getElementById('play-overlay');
+    const iframeContainer = document.getElementById('iframe-container');
+    const gameUrl = <?php echo json_encode($game['iframe_url']); ?>;
+
+    function loadAndStartGame() {
+        if (playOverlay && iframeContainer) {
+            playOverlay.style.display = 'none';
+            iframeContainer.style.display = 'block';
+            iframeContainer.innerHTML = `<iframe id="game-iframe" src="${gameUrl}" frameborder="0" allowfullscreen allow="autoplay; keyboard"></iframe>`;
+            const iframe = document.getElementById('game-iframe');
+            if (iframe) iframe.focus();
+        }
+    }
+
+    if (playBtn) {
+        playBtn.addEventListener('click', loadAndStartGame);
+    }
+
     const fsBtn = document.getElementById('fullscreen-btn');
     const stage = document.getElementById('video-viewport');
 
     fsBtn.addEventListener('click', () => {
+        if (playOverlay && playOverlay.style.display !== 'none') {
+            loadAndStartGame();
+        }
         if (!document.fullscreenElement) {
             if (stage.requestFullscreen) stage.requestFullscreen();
             else if (stage.mozRequestFullScreen) stage.mozRequestFullScreen();
@@ -123,6 +161,6 @@ require_once 'footer.php';
         }
     });
 </script>
-<?php //echo get_ad_unit('gm-global'); ?>
+<?php echo get_ad_unit('gm-global'); ?>
 </body>
 </html>

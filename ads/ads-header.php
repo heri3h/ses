@@ -15,7 +15,7 @@
         
         // Targeting tambahan untuk laporan di Dashboard GAM
         googletag.pubads().setTargeting('domain', currentDomain);
-        googletag.pubads().setTargeting('site_name', 'arcadefun');
+        googletag.pubads().setTargeting('site_name', currentDomain);
 
         // 1. KONFIGURASI LAZY LOAD
         googletag.pubads().enableLazyLoad({
@@ -42,12 +42,12 @@
             .build();
 
         // 3. DEFINISI SLOT IKLAN
-        slotHeader = googletag.defineSlot('/22806125615/gm-header', [[728, 90], [970, 250], 'fluid'], 'div-gpt-ad-gm-header');
+        slotHeader = googletag.defineSlot('/22806125615/ses-header', [[728, 90], [970, 250], [970, 90], [300, 250], [336, 280], [320, 50],'fluid'], 'div-gpt-ad-gm-header');
         if (slotHeader) {
             slotHeader.defineSizeMapping(mappingFlexible).addService(googletag.pubads());
         }
         
-        slotFeed = googletag.defineSlot('/22806125615/gm-feed', [[300, 250], [970, 90],'fluid'], 'div-gpt-ad-gm-feed');
+        slotFeed = googletag.defineSlot('/22806125615/ses-feed', [[728, 90], [970, 250], [970, 90], [300, 250], [336, 280], [320, 50],'fluid'], 'div-gpt-ad-gm-feed');
         if (slotFeed) {
             slotFeed.defineSizeMapping(mappingFlexible).addService(googletag.pubads());
         }
@@ -57,16 +57,16 @@
             slotSide.defineSizeMapping(mappingSide).addService(googletag.pubads());
         }
 
-        slotSide = googletag.defineSlot('/22806125615/gm-side-2', [[160, 600]], 'div-gpt-ad-gm-side-2');
-        if (slotSide) {
-            slotSide.defineSizeMapping(mappingSide2).addService(googletag.pubads());
+        slotSide2 = googletag.defineSlot('/22806125615/gm-side-2', [[160, 600]], 'div-gpt-ad-gm-side-2');
+        if (slotSide2) {
+            slotSide2.defineSizeMapping(mappingSide2).addService(googletag.pubads());
         }
 
         // 4. OUT-OF-PAGE SLOT
-        slotInt = googletag.defineOutOfPageSlot('/22806125615/gm-int', googletag.enums.OutOfPageFormat.INTERSTITIAL);
+        slotInt = googletag.defineOutOfPageSlot('/22806125615/ses-int', googletag.enums.OutOfPageFormat.INTERSTITIAL);
         if (slotInt) { slotInt.addService(googletag.pubads()); }
 
-        slotSticky = googletag.defineOutOfPageSlot('/22806125615/gm-sticky', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
+        slotSticky = googletag.defineOutOfPageSlot('/22806125615/ses-sticky', googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR);
         if (slotSticky) { slotSticky.addService(googletag.pubads()); }
 
         // 5. SETTING GLOBAL PERFORMA
@@ -77,9 +77,11 @@
 
     // 6. LOGIKA AUTO REFRESH SIDEBAR
     setInterval(function() {
-        if (slotSide && !document.hidden) {
+        if (!document.hidden) {
             googletag.cmd.push(function() {
-                googletag.pubads().refresh([slotSide]);
+                googletag.pubads().refresh([slotHeader]);
+                googletag.pubads().refresh([slotFeed]);
+                googletag.pubads().refresh([slotSticky]);
                 console.log("GAM: Sidebar Refreshed for domain " + window.location.hostname);
             });
         }

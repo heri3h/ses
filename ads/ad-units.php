@@ -3,22 +3,17 @@ function get_ad_unit($name) {
     switch ($name) {
         case 'gm-header':
             // Beri min-height agar tidak menutupi iframe game saat loading
-            return '<div id="div-gpt-ad-gm-header" style="min-height:90px;margin-bottom:20px; text-align:center;">
+            return '<div id="div-gpt-ad-gm-header" style="text-align: center;margin-bottom: 15px;">
                         <script>googletag.cmd.push(function() { googletag.display("div-gpt-ad-gm-header"); });</script>
                     </div>';
         
-        case 'gm-side':
-            return '<div id="div-gpt-ad-gm-side" style="min-height:250px;">
-                        <script>googletag.cmd.push(function() { googletag.display("div-gpt-ad-gm-side"); });</script>
+        case 'gm-feed':
+            return '<div id="div-gpt-ad-gm-feed" >
+                        <script>googletag.cmd.push(function() { googletag.display("div-gpt-ad-gm-feed"); });</script>
                     </div>';
 
         case 'gm-global':
-            return '<script>
-                        googletag.cmd.push(function() { 
-                            googletag.display("/22806125615/gm-int"); 
-                            googletag.display("/22806125615/gm-sticky"); 
-                        });
-                    </script>';
+            return '';
         // ... (unit lainnya)
     }
 }
