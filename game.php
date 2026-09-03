@@ -70,7 +70,9 @@ require_once 'header.php';
                 $thumbUrl = (strpos($rawThumb, 'http') === 0) ? $rawThumb : '/' . ltrim($rawThumb, '/');
             ?>
             <div id="video-viewport" class="viewport-box">
-                <div id="play-overlay" class="play-overlay" style="background-image: url('<?php echo htmlspecialchars($thumbUrl); ?>');">
+                <!-- Screen Cover Play Button (Iframe NOT loaded initially) -->
+                <div id="play-overlay" class="play-overlay">
+                    <img src="<?php echo htmlspecialchars($thumbUrl); ?>" alt="" class="overlay-bg-img">
                     <div class="overlay-backdrop"></div>
                     <div class="overlay-content">
                         <div class="overlay-thumb-wrapper">
@@ -82,6 +84,7 @@ require_once 'header.php';
                         </button>
                     </div>
                 </div>
+                <!-- Game Iframe Container (Dynamic load on click) -->
                 <div id="iframe-container" class="iframe-container" style="display: none;"></div>
             </div>
             
