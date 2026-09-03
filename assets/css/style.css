@@ -153,6 +153,52 @@ body {
     display: block; /* Menghilangkan gap bawah gambar di Firefox */
 }
 
+/* Sembunyikan thumbnail di index page sebelum iklan ADX tampil */
+body.index-page .game-card img {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+body.index-page.adx-loaded .game-card img {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Efek Shimmer & Spinner Loading saat thumbnail disembunyikan */
+body.index-page:not(.adx-loaded) .card-inner {
+    position: relative;
+    background: linear-gradient(110deg, #2d1b4d 8%, #3d2666 18%, #2d1b4d 33%);
+    background-size: 200% 100%;
+    animation: thumbShimmer 1.5s linear infinite;
+}
+
+body.index-page:not(.adx-loaded) .card-inner::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    margin-top: -13px;
+    margin-left: -13px;
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: thumbSpinner 0.8s linear infinite;
+    z-index: 2;
+}
+
+@keyframes thumbShimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes thumbSpinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .game-title {
     padding: 12px 8px;
     font-size: 12px;

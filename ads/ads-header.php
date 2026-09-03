@@ -72,6 +72,15 @@
         // 5. SETTING GLOBAL PERFORMA
         googletag.pubads().enableSingleRequest();
         googletag.pubads().collapseEmptyDivs();
+        
+        // Listener saat iklan ADX selesai dirender/tampil
+        googletag.pubads().addEventListener('slotRenderEnded', function(event) {
+            document.body.classList.add('adx-loaded');
+        });
+        googletag.pubads().addEventListener('impressionViewable', function(event) {
+            document.body.classList.add('adx-loaded');
+        });
+
         googletag.enableServices();
     });
 

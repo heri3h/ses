@@ -34,7 +34,7 @@ try {
     <?php require_once 'ads/ads-header.php'; ?>
     <?php require_once 'meta-header.php'; ?>
 </head>
-<body>
+<body class="index-page">
 
 <?php
 require_once 'header.php';
@@ -118,6 +118,11 @@ require_once 'footer.php';
             loadMore();
         }
     }, { passive: true });
+
+    // Fallback jika iklan ADX lambat / terpengaruh adblocker
+    setTimeout(function() {
+        document.body.classList.add('adx-loaded');
+    }, 3500);
 </script>
 <?php echo get_ad_unit('gm-global'); ?>
 </body>
